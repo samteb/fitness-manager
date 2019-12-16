@@ -1,9 +1,9 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
-import { AuthModule } from '../auth/auth.module';
 import { AppComponent } from './containers/app/app.component';
+import { AuthModule } from '../auth/auth.module';
+import { Store } from 'store';
 
 @NgModule({
   declarations: [
@@ -14,7 +14,9 @@ import { AppComponent } from './containers/app/app.component';
     AppRoutingModule,
     AuthModule
   ],
-  providers: [],
+  providers: [
+    Store
+  ],
   bootstrap: [ AppComponent ]
 })
-export class AppModule { }
+export class AppModule {}
