@@ -12,8 +12,8 @@ export const ROUTES: Routes = [
 @NgModule({
   imports: [
     CommonModule,
-    SharedModule,
-    RouterModule.forChild(ROUTES)
+    RouterModule.forChild(ROUTES),
+    SharedModule
   ],
   declarations: [
     LoginComponent
