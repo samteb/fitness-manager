@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import {FormGroup} from '@angular/forms';
+import { FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthService } from '../../../shared/services/auth/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -7,9 +9,20 @@ import {FormGroup} from '@angular/forms';
 })
 
 export class LoginComponent {
-  constructor() {}
+  error = '';
 
-  loginUser(event: FormGroup): void {
-    console.log(event.value);
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {}
+
+  async loginUser(event: FormGroup): Promise<void> {
+    try {
+      const { email, password } = event.value;
+      await this.authService.loginUser(email, password);
+      await this.router.navigate(['/']);
+    } catch (error) {
+      this.error = error.message;
+    }
   }
 }

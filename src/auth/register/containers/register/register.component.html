@@ -3,5 +3,6 @@
     <h1>Register</h1>
     <a routerLink="/auth/login">Already have an account?</a>
     <button type="submit">Create Account</button>
+    <div class="error" *ngIf="error">{{ error }}</div>
   </app-auth-form>
 </div>
