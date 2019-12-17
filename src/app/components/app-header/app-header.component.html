@@ -1,0 +1,8 @@
+<div class="app-header">
+  <div class="wrapper">
+    <img src="/assets/img/logo.svg" alt="logo">
+    <div *ngIf="user?.uid" class="app-header__user-info">
+      <span (click)="logoutUser()"></span>
+    </div>
+  </div>
+</div>

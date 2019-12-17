@@ -1,5 +1,10 @@
 <div>
-  <h1>{{ user$ | async | json }}</h1>
+  <app-header
+    [user]="user$ | async"
+    (logout)="onLogout()">
+  </app-header>
+  <app-nav *ngIf="(user$ | async)?.uid">
+  </app-nav>
   <div class="wrapper">
     <router-outlet></router-outlet>
   </div>
