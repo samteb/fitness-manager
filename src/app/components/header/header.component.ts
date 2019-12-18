@@ -3,11 +3,11 @@ import { User } from '../../../models/user.model';
 
 @Component({
   selector: 'app-header',
-  templateUrl: './app-header.component.html',
-  styleUrls: ['./app-header.component.scss'],
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AppHeaderComponent {
+export class HeaderComponent {
   @Input() user: User;
   @Output() logout = new EventEmitter<any>();
 

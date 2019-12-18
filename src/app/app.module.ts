@@ -1,26 +1,32 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
-import { AppNavComponent } from './components/app-nav/app-nav.component';
-import { AppHeaderComponent } from './components/app-header/app-header.component';
 import { AppComponent } from './containers/app/app.component';
+
+// components
+import { NavComponent } from './components/nav/nav.component';
+import { HeaderComponent } from './components/header/header.component';
+
+// modules
 import { AuthModule } from '../auth/auth.module';
+import { HealthModule } from '../health/health.module';
+
+// store
 import { Store } from 'store';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AppNavComponent,
-    AppHeaderComponent
+    NavComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    AuthModule
+    AuthModule,
+    HealthModule
   ],
-  providers: [
-    Store
-  ],
+  providers: [ Store ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule {}
