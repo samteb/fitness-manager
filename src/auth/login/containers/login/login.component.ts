@@ -16,11 +16,11 @@ export class LoginComponent {
     private router: Router
   ) {}
 
-  async loginUser(event: FormGroup): Promise<void> {
+  async loginUser(event: FormGroup): Promise<boolean> {
     try {
       const { email, password } = event.value;
       await this.authService.loginUser(email, password);
-      await this.router.navigate(['/']);
+      return this.router.navigate(['/']);
     } catch (error) {
       this.error = error.message;
     }

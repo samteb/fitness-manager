@@ -16,11 +16,11 @@ export class RegisterComponent {
     private router: Router
   ) {}
 
-  async registerUser(event: FormGroup): Promise<void> {
+  async registerUser(event: FormGroup): Promise<boolean> {
     try {
       const { email, password } = event.value;
       await this.authService.createUser(email, password);
-      await this.router.navigate(['/']);
+      return  this.router.navigate(['/']);
     } catch (error) {
       this.error = error.message;
     }
