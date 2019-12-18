@@ -2,14 +2,17 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { pluck, distinctUntilChanged} from 'rxjs/operators';
 
 import { User } from './models/user.model';
+import { Meal } from './models/meal.model';
 
 export interface State {
   user: User;
+  meals: Meal[];
   [key: string]: any;
 }
 
 const state: State = {
-  user: undefined
+  user: undefined,
+  meals: undefined
 };
 
 export class Store {

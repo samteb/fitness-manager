@@ -8,7 +8,7 @@ import { AngularFireDatabaseModule } from '@angular/fire/database';
 
 import { SharedModule } from './shared/shared.module';
 
-export const firebaseConfig: FirebaseAppConfig = {
+const firebaseConfig: FirebaseAppConfig = {
   apiKey: 'AIzaSyCjccpzt2b4BL0jSnDNrgGQyDlDpvZB-uQ',
   authDomain: 'fitness-manager-6a6f4.firebaseapp.com',
   databaseURL: 'https://fitness-manager-6a6f4.firebaseio.com',
