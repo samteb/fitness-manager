@@ -7,6 +7,7 @@ import { SharedModule } from '../shared/shared.module';
 
 import { MealsComponent } from './containers/meals/meals.component';
 import { MealComponent } from './containers/meal/meal.component';
+import { MealFormComponent } from './components/meal-form/meal-form.component';
 
 const ROUTES: Routes = [
   { path: '', component: MealsComponent },
@@ -22,7 +23,8 @@ const ROUTES: Routes = [
   ],
   declarations: [
     MealsComponent,
-    MealComponent
+    MealComponent,
+    MealFormComponent
   ]
 })
 export class MealsModule {}

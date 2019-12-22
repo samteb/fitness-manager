@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Meal } from '../../../../models/meal.model';
 
 @Component({
   selector: 'app-meal',
@@ -6,5 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['meal.component.scss']
 })
 export class MealComponent {
-  constructor() {}
+  addMeal(event: Meal) {
+    console.log('Meal:', event);
+  }
 }
