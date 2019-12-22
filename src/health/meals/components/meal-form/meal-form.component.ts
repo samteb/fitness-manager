@@ -1,25 +1,52 @@
-import { Component, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, OnChanges, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
 
 import { Meal } from '../../../../models/meal.model';
 
 @Component({
   selector: 'app-meal-form',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['meal-form.component.scss'],
-  templateUrl: './meal-form.component.html'
+  templateUrl: './meal-form.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MealFormComponent {
-  @Output() create = new EventEmitter<Meal>();
-
+export class MealFormComponent implements OnChanges {
+  toggled = false;
+  exists = false;
   form = this.fb.group({
     name: ['', Validators.required],
     ingredients: this.fb.array([''])
   });
 
+  @Input() meal: Meal;
+  @Output() create = new EventEmitter<Meal>();
+  @Output() update = new EventEmitter<Meal>();
+  @Output() remove = new EventEmitter<Meal>();
+
   constructor(
     private fb: FormBuilder
   ) {}
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (this.meal && this.meal.name) {
+      this.exists = true;
+      this.emptyIngredients();
+
+      const value = this.meal;
+      this.form.patchValue(value);
+
+      if (value.ingredients) {
+        for (const item of value.ingredients) {
+          this.ingredients.push(new FormControl(item));
+        }
+      }
+    }
+  }
+
+  emptyIngredients() {
+    while (this.ingredients.controls.length) {
+      this.ingredients.removeAt(0);
+    }
+  }
 
   get required() {
     return (
@@ -44,5 +71,19 @@ export class MealFormComponent {
     if (this.form.valid) {
       this.create.emit(this.form.value);
     }
+  }
+
+  updateMeal() {
+    if (this.form.valid) {
+      this.update.emit(this.form.value);
+    }
+  }
+
+  removeMeal() {
+    this.remove.emit(this.form.value);
+  }
+
+  toggle() {
+    this.toggled = !this.toggled;
   }
 }

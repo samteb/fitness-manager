@@ -8,7 +8,7 @@
           placeholder="e.g. English Breakfast"
           formControlName="name">
         <div class="error" *ngIf="required">
-          Workout name is required
+          Meal name is required
         </div>
       </label>
     </div>
@@ -38,14 +38,42 @@
         <button
           type="button"
           class="button"
+          *ngIf="!exists"
           (click)="createMeal()">
           Create meal
+        </button>
+        <button
+          type="button"
+          class="button"
+          *ngIf="exists"
+          (click)="updateMeal()">
+          Save
         </button>
         <a
           class="button button--cancel"
           [routerLink]="['../']">
           Cancel
         </a>
+      </div>
+      <div class="meal-form__delete" *ngIf="exists">
+        <div *ngIf="toggled">
+          <p>Delete item?</p>
+          <button
+            class="confirm"
+            type="button"
+            (click)="removeMeal()">
+            Yes
+          </button>
+          <button
+            class="cancel"
+            type="button"
+            (click)="toggle()">
+            No
+          </button>
+        </div>
+        <button class="button button--delete" type="button" (click)="toggle()">
+          Delete
+        </button>
       </div>
     </div>
   </form>
