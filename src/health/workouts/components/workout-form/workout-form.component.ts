@@ -5,9 +5,9 @@ import { Workout } from '../../../../models/workout.model';
 
 @Component({
   selector: 'app-workout-form',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['workout-form.component.scss'],
-  templateUrl: './workout-form.component.html'
+  templateUrl: './workout-form.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WorkoutFormComponent implements OnChanges {
   toggled = false;
