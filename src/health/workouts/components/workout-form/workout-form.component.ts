@@ -1,5 +1,5 @@
 import { Component, Input, Output, OnChanges, SimpleChanges, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import {FormBuilder, Validators} from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 
 import { Workout } from '../../../../models/workout.model';
 
@@ -14,7 +14,16 @@ export class WorkoutFormComponent implements OnChanges {
   exists = false;
   form = this.fb.group({
     name: ['', Validators.required],
-    type: 'strength'
+    type: 'strength',
+    strength: this.fb.group({
+      reps: 0,
+      sets: 0,
+      weight: 0
+    }),
+    endurance: this.fb.group({
+      distance: 0,
+      duration: 0
+    })
   });
 
   @Input() workout: Workout;
@@ -29,10 +38,13 @@ export class WorkoutFormComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (this.workout && this.workout.name) {
       this.exists = true;
-
       const value = this.workout;
       this.form.patchValue(value);
     }
+  }
+
+  get placeholder() {
+    return `e.g. ${this.form.get('type').value === 'strength' ? 'Benchpress' : 'Treadmill'}`;
   }
 
   get required() {
