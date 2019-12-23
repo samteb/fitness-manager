@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
-import { Observable, EMPTY } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { tap, map, filter } from 'rxjs/operators';
 
 import { Store } from 'store';
@@ -26,9 +26,9 @@ export class MealsService {
     return this.authService.user.uid;
   }
 
-  getMeal(key: string): Observable<Meal> {
+  getMeal(key: string): Observable<any> {
     if (!key) {
-      return EMPTY;
+      return of({});
     }
 
     return this.store.select<Meal[]>('meals').pipe(
