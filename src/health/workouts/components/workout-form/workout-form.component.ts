@@ -13,7 +13,8 @@ export class WorkoutFormComponent implements OnChanges {
   toggled = false;
   exists = false;
   form = this.fb.group({
-    name: ['', Validators.required]
+    name: ['', Validators.required],
+    type: 'strength'
   });
 
   @Input() workout: Workout;
