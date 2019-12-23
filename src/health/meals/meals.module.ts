@@ -5,8 +5,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { SharedModule } from '../shared/shared.module';
 
+// containers
 import { MealsComponent } from './containers/meals/meals.component';
 import { MealComponent } from './containers/meal/meal.component';
+
+// components
 import { MealFormComponent } from './components/meal-form/meal-form.component';
 
 const ROUTES: Routes = [

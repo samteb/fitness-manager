@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { Meal } from '../../../../models/meal.model';
+import { Workout } from '../../../../models/workout.model';
 
 @Component({
   selector: 'app-list-item',
@@ -8,7 +9,7 @@ import { Meal } from '../../../../models/meal.model';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ListItemComponent {
-  @Input() item: Meal;
+  @Input() item: Meal | Workout;
   @Output() remove = new EventEmitter<any>();
 
   toggled = false;
