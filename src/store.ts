@@ -7,6 +7,7 @@ import { Workout } from './models/workout.model';
 
 export interface State {
   user: User;
+  date: Date;
   meals: Meal[];
   workouts: Workout[];
   [key: string]: any;
@@ -14,6 +15,7 @@ export interface State {
 
 const state: State = {
   user: undefined,
+  date: undefined,
   meals: undefined,
   workouts: undefined,
 };
