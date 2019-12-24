@@ -24,8 +24,11 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     this.date$ = this.store.select('date');
   }
 
+  changeDate(date: Date) {
+    this.scheduleService.updateDate(date);
+  }
+
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
   }
-
 }
