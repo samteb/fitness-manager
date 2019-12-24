@@ -1,6 +1,10 @@
 <div class="calendar">
   <app-schedule-controls
     [selected]="selectedDay"
-    (move)="onChange($event)">
+    (move)="onControlsClick($event)">
   </app-schedule-controls>
+  <app-schedule-days
+    [selected]="selectedDayIndex"
+    (select)="onSelectDay($event)">
+  </app-schedule-days>
 </div>

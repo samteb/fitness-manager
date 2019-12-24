@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'app-schedule-days',
@@ -6,4 +6,13 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
   templateUrl: './schedule-days.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ScheduleDaysComponent {}
+export class ScheduleDaysComponent {
+  @Input() selected: number;
+  @Output() select = new EventEmitter<number>();
+
+  days = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+
+  selectDay(index: number) {
+    this.select.emit(index);
+  }
+}
