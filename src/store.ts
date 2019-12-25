@@ -4,10 +4,12 @@ import { pluck, distinctUntilChanged} from 'rxjs/operators';
 import { User } from './models/user.model';
 import { Meal } from './models/meal.model';
 import { Workout } from './models/workout.model';
+import { ScheduleItem } from './models/schedule.model';
 
 export interface State {
   user: User;
   date: Date;
+  schedule: ScheduleItem[];
   meals: Meal[];
   workouts: Workout[];
   [key: string]: any;
@@ -16,6 +18,7 @@ export interface State {
 const state: State = {
   user: undefined,
   date: undefined,
+  schedule: undefined,
   meals: undefined,
   workouts: undefined,
 };

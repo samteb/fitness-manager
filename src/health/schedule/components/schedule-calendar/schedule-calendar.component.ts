@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import { ScheduleItem, Schedule } from '../../../../models/schedule.model';
 
 @Component({
   selector: 'app-schedule-calendar',
@@ -10,9 +11,17 @@ export class ScheduleCalendarComponent implements OnChanges {
   selectedDay: Date;
   selectedWeek: Date;
 
+  sections = [
+    { key: 'morning', name: 'Morning' },
+    { key: 'lunch', name: 'Lunch' },
+    { key: 'evening', name: 'Evening' },
+    { key: 'snacks', name: 'Snacks and Drinks' },
+  ];
+
   @Input() set date(date: Date) {
     this.selectedDay = new Date(date.getTime());
   }
+  @Input() schedule: Schedule;
   @Output() change = new EventEmitter<Date>();
 
   ngOnChanges() {
@@ -26,6 +35,10 @@ export class ScheduleCalendarComponent implements OnChanges {
     this.change.emit(selectedDay);
   }
 
+  onSelectSection(data: any) {
+    console.log(data);
+  }
+
   onControlsClick(weekOffset: number) {
     const startOfWeek = this.getStartOfWeek(new Date());
     const startDate = (
@@ -33,6 +46,10 @@ export class ScheduleCalendarComponent implements OnChanges {
     );
     startDate.setDate(startDate.getDate() + (weekOffset * 7));
     this.change.emit(startDate);
+  }
+
+  getSection(key: string): ScheduleItem {
+    return this.schedule && this.schedule[key] || {};
   }
 
   private getToday(date: Date) {

@@ -7,4 +7,10 @@
     [selected]="selectedDayIndex"
     (select)="onSelectDay($event)">
   </app-schedule-days>
+  <app-schedule-section
+    *ngFor="let section of sections"
+    [name]="section.name"
+    [section]="getSection(section.key)"
+    (select)="onSelectSection($event)">
+  </app-schedule-section>
 </div>

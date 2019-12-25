@@ -4,6 +4,7 @@ import { Observable, Subscription } from 'rxjs';
 import { Store } from 'store';
 
 import { ScheduleService } from '../../../shared/services/schedule.service';
+import { ScheduleItem } from '../../../../models/schedule.model';
 
 @Component({
   selector: 'app-schedule',
@@ -13,6 +14,7 @@ import { ScheduleService } from '../../../shared/services/schedule.service';
 export class ScheduleComponent implements OnInit, OnDestroy {
   subscriptions = new Subscription();
   date$: Observable<Date>;
+  schedule$: Observable<ScheduleItem[]>;
 
   constructor(
     private store: Store,
@@ -22,6 +24,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.subscriptions.add(this.scheduleService.schedule$.subscribe());
     this.date$ = this.store.select('date');
+    this.schedule$ = this.store.select('schedule');
   }
 
   changeDate(date: Date) {
