@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
 
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 
 import { AuthService } from '../../../auth/shared/services/auth.service';
@@ -12,6 +12,12 @@ import { Store } from 'store';
 @Injectable()
 export class ScheduleService {
   private date$ = new BehaviorSubject(new Date());
+  private section$ = new Subject();
+
+  selected$: Observable<any> = this.section$.pipe(
+    tap(next => this.store.set('selected', next))
+  );
+
   schedule$: Observable<any[]> = this.date$.pipe(
     tap((next: any) => this.store.set('date', next)),
     map((day: any) => {
@@ -57,5 +63,9 @@ export class ScheduleService {
 
   updateDate(date: Date) {
     this.date$.next(date);
+  }
+
+  selectSection(data: any) {
+    this.section$.next(data);
   }
 }

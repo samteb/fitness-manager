@@ -9,6 +9,7 @@ import { ScheduleItem } from './models/schedule.model';
 export interface State {
   user: User;
   date: Date;
+  selected: any;
   schedule: ScheduleItem[];
   meals: Meal[];
   workouts: Workout[];
@@ -18,6 +19,7 @@ export interface State {
 const state: State = {
   user: undefined,
   date: undefined,
+  selected: undefined,
   schedule: undefined,
   meals: undefined,
   workouts: undefined,

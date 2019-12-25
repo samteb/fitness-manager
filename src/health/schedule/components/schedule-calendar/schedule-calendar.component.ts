@@ -23,6 +23,7 @@ export class ScheduleCalendarComponent implements OnChanges {
   }
   @Input() schedule: Schedule;
   @Output() change = new EventEmitter<Date>();
+  @Output() select = new EventEmitter<any>();
 
   ngOnChanges() {
     this.selectedDayIndex = this.getToday(this.selectedDay);
@@ -35,8 +36,15 @@ export class ScheduleCalendarComponent implements OnChanges {
     this.change.emit(selectedDay);
   }
 
-  onSelectSection(data: any) {
-    console.log(data);
+  onSelectSection({ type, assigned, data }: any, section: string) {
+    const day = this.selectedDay;
+    this.select.emit({
+      type,
+      assigned,
+      section,
+      day,
+      data
+    });
   }
 
   onControlsClick(weekOffset: number) {
