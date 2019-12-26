@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 import { Meal } from '../../../../models/meal.model';
 import { Workout } from '../../../../models/workout.model';
@@ -6,7 +6,8 @@ import { Workout } from '../../../../models/workout.model';
 @Component({
   selector: 'app-schedule-assign',
   styleUrls: ['schedule-assign.component.scss'],
-  templateUrl: './schedule-assign.component.html'
+  templateUrl: './schedule-assign.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ScheduleAssignComponent implements OnInit {
   private selected: string[] = [];

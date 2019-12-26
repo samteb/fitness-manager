@@ -9,7 +9,7 @@ import { Workout } from '../../../../models/workout.model';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ListItemComponent {
-  @Input() item: Meal | Workout;
+  @Input() item: any;
   @Output() remove = new EventEmitter<any>();
 
   toggled = false;

@@ -1,10 +1,11 @@
-import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, ChangeDetectionStrategy } from '@angular/core';
 import { ScheduleItem, Schedule } from '../../../../models/schedule.model';
 
 @Component({
   selector: 'app-schedule-calendar',
   styleUrls: ['schedule-calendar.component.scss'],
-  templateUrl: './schedule-calendar.component.html'
+  templateUrl: './schedule-calendar.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ScheduleCalendarComponent implements OnChanges {
   selectedDayIndex: number;
