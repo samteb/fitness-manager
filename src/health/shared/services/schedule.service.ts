@@ -47,8 +47,8 @@ export class ScheduleService {
   );
 
   schedule$: Observable<any[]> = this.dateSource$.pipe(
-    tap((next: any) => this.store.set('date', next)),
-    map((day: any) => {
+    tap((next: Date) => this.store.set('date', next)),
+    map((day: Date) => {
       const startAt = (
         new Date(day.getFullYear(), day.getMonth(), day.getDate())
       ).getTime();
@@ -60,7 +60,7 @@ export class ScheduleService {
       return { startAt, endAt };
     }),
     switchMap(({ startAt, endAt }: any) => this.getSchedule(startAt, endAt)),
-    map((data: any) => {
+    map((data: ScheduleItem[]) => {
       const mapped: Schedule = {};
 
       for (const prop of data) {
@@ -98,7 +98,9 @@ export class ScheduleService {
 
   private getSchedule(startAt: number, endAt: number) {
     const query = ref => ref.orderByChild('timestamp').startAt(startAt).endAt(endAt);
-    return this.db.list(`schedule/${this.uid}`, query).valueChanges();
+    return this.db.list(`schedule/${this.uid}`, query).snapshotChanges().pipe(
+      map(changes => changes.map(c => ({ key: c.payload.key, ...c.payload.val() })))
+    );
   }
 
   private addSchedule(schedule: ScheduleItem) {
