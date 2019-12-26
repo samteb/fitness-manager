@@ -15,7 +15,12 @@ export class ScheduleService {
   private section$ = new Subject();
 
   selected$: Observable<any> = this.section$.pipe(
-    tap(next => this.store.set('selected', next))
+    tap((next: any) => this.store.set('selected', next))
+  );
+
+  list$: Observable<any> = this.section$.pipe(
+    map((value: any) => this.store.value[value.type]),
+    tap((next: any) => this.store.set('list', next))
   );
 
   schedule$: Observable<any[]> = this.date$.pipe(

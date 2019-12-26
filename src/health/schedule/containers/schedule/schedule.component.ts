@@ -4,7 +4,11 @@ import { Observable, Subscription } from 'rxjs';
 import { Store } from 'store';
 
 import { ScheduleService } from '../../../shared/services/schedule.service';
+import { MealsService } from '../../../shared/services/meals.service';
+import { WorkoutsService } from '../../../shared/services/workouts.service';
 import { ScheduleItem } from '../../../../models/schedule.model';
+import { Meal } from '../../../../models/meal.model';
+import { Workout } from '../../../../models/workout.model';
 
 @Component({
   selector: 'app-schedule',
@@ -12,20 +16,31 @@ import { ScheduleItem } from '../../../../models/schedule.model';
   styleUrls: ['./schedule.component.scss']
 })
 export class ScheduleComponent implements OnInit, OnDestroy {
+  showAssignPopup = false;
   subscriptions = new Subscription();
   date$: Observable<Date>;
   schedule$: Observable<ScheduleItem[]>;
+  selected$: Observable<any>;
+  list$: Observable<Meal[] | Workout[]>;
 
   constructor(
     private store: Store,
-    private scheduleService: ScheduleService
+    private scheduleService: ScheduleService,
+    private mealService: MealsService,
+    private workoutService: WorkoutsService,
   ) {}
 
   ngOnInit() {
     this.subscriptions.add(this.scheduleService.schedule$.subscribe());
     this.subscriptions.add(this.scheduleService.selected$.subscribe());
+    this.subscriptions.add(this.scheduleService.list$.subscribe());
+    this.subscriptions.add(this.mealService.meals$.subscribe());
+    this.subscriptions.add(this.workoutService.workouts$.subscribe());
+
     this.date$ = this.store.select('date');
     this.schedule$ = this.store.select('schedule');
+    this.selected$ = this.store.select('selected');
+    this.list$ = this.store.select('list');
   }
 
   changeDate(date: Date) {
@@ -33,7 +48,12 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
 
   changeSection(data: any) {
+    this.showAssignPopup = true;
     this.scheduleService.selectSection(data);
+  }
+
+  closeAssignPopup() {
+    this.showAssignPopup = false;
   }
 
   ngOnDestroy() {
