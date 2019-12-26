@@ -1,29 +1,52 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase } from '@angular/fire/database';
+import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
 
 import { Observable, BehaviorSubject, Subject } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 
 import { AuthService } from '../../../auth/shared/services/auth.service';
-import { Schedule } from '../../../models/schedule.model';
+import { Schedule, ScheduleItem } from '../../../models/schedule.model';
 
 import { Store } from 'store';
 
 @Injectable()
 export class ScheduleService {
-  private date$ = new BehaviorSubject(new Date());
-  private section$ = new Subject();
+  private scheduleRef: AngularFireList<any> = this.db.list(`schedule/${this.uid}`);
+  private dateSource$ = new BehaviorSubject(new Date());
+  private sectionSource$ = new Subject();
+  private itemsSource$ = new Subject();
 
-  selected$: Observable<any> = this.section$.pipe(
+  items$ = this.itemsSource$.pipe(
+    withLatestFrom(this.sectionSource$),
+    map(([ items, section ]: any[]) => {
+      const id = section.data.key;
+
+      const defaults: ScheduleItem = {
+        workouts: null,
+        meals: null,
+        section: section.section,
+        timestamp: new Date(section.day).getTime()
+      };
+
+      const schedule = {
+        ...(id ? section.data : defaults),
+        ...items
+      };
+
+      return id ? this.updateSchedule(id, schedule) : this.addSchedule(schedule);
+    })
+  );
+
+  selected$: Observable<any> = this.sectionSource$.pipe(
     tap((next: any) => this.store.set('selected', next))
   );
 
-  list$: Observable<any> = this.section$.pipe(
+  list$: Observable<any> = this.sectionSource$.pipe(
     map((value: any) => this.store.value[value.type]),
     tap((next: any) => this.store.set('list', next))
   );
 
-  schedule$: Observable<any[]> = this.date$.pipe(
+  schedule$: Observable<any[]> = this.dateSource$.pipe(
     tap((next: any) => this.store.set('date', next)),
     map((day: any) => {
       const startAt = (
@@ -61,16 +84,28 @@ export class ScheduleService {
     return this.authService.user.uid;
   }
 
-  getSchedule(startAt: number, endAt: number) {
+  setDate(date: Date) {
+    this.dateSource$.next(date);
+  }
+
+  setSection(data: any) {
+    this.sectionSource$.next(data);
+  }
+
+  setItems(items: string[]) {
+    this.itemsSource$.next(items);
+  }
+
+  private getSchedule(startAt: number, endAt: number) {
     const query = ref => ref.orderByChild('timestamp').startAt(startAt).endAt(endAt);
-    return this.db.list(`schedule/${this.uid}`, query).snapshotChanges();
+    return this.db.list(`schedule/${this.uid}`, query).valueChanges();
   }
 
-  updateDate(date: Date) {
-    this.date$.next(date);
+  private addSchedule(schedule: ScheduleItem) {
+    return this.scheduleRef.push(schedule);
   }
 
-  selectSection(data: any) {
-    this.section$.next(data);
+  private updateSchedule(key: string, schedule: ScheduleItem) {
+    return this.db.object(`schedule/${this.uid}/${key}`).update(schedule);
   }
 }

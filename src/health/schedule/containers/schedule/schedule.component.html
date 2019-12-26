@@ -2,13 +2,14 @@
   <app-schedule-calendar
     [date]="date$ | async"
     [schedule]="schedule$ | async"
-    (change)="changeDate($event)"
-    (select)="changeSection($event)">
+    (change)="setDate($event)"
+    (select)="setSection($event)">
   </app-schedule-calendar>
   <app-schedule-assign
     *ngIf="showAssignPopup"
     [section]="selected$ | async"
     [list]="list$ | async"
-    (cancel)="closeAssignPopup()">
+    (update)="setItems($event)"
+    (cancel)="closePopup()">
   </app-schedule-assign>
 </div>

@@ -19,9 +19,9 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   showAssignPopup = false;
   subscriptions = new Subscription();
   date$: Observable<Date>;
-  schedule$: Observable<ScheduleItem[]>;
   selected$: Observable<any>;
   list$: Observable<Meal[] | Workout[]>;
+  schedule$: Observable<ScheduleItem[]>;
 
   constructor(
     private store: Store,
@@ -31,28 +31,34 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.subscriptions.add(this.scheduleService.schedule$.subscribe());
+    this.subscriptions.add(this.scheduleService.items$.subscribe());
     this.subscriptions.add(this.scheduleService.selected$.subscribe());
     this.subscriptions.add(this.scheduleService.list$.subscribe());
+    this.subscriptions.add(this.scheduleService.schedule$.subscribe());
     this.subscriptions.add(this.mealService.meals$.subscribe());
     this.subscriptions.add(this.workoutService.workouts$.subscribe());
 
     this.date$ = this.store.select('date');
-    this.schedule$ = this.store.select('schedule');
     this.selected$ = this.store.select('selected');
     this.list$ = this.store.select('list');
+    this.schedule$ = this.store.select('schedule');
   }
 
-  changeDate(date: Date) {
-    this.scheduleService.updateDate(date);
+  setDate(date: Date) {
+    this.scheduleService.setDate(date);
   }
 
-  changeSection(data: any) {
+  setSection(data: any) {
     this.showAssignPopup = true;
-    this.scheduleService.selectSection(data);
+    this.scheduleService.setSection(data);
   }
 
-  closeAssignPopup() {
+  setItems(items: string[]) {
+    this.scheduleService.setItems(items);
+    this.closePopup();
+  }
+
+  closePopup() {
     this.showAssignPopup = false;
   }
 

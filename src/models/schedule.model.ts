@@ -5,7 +5,8 @@ export interface ScheduleItem {
   meals: Meal[];
   workouts: Workout[];
   section: string;
-  key: string;
+  timestamp: number;
+  key?: string;
 }
 
 export interface Schedule {

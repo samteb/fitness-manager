@@ -10,7 +10,7 @@ import { Meal } from '../../../models/meal.model';
 
 @Injectable()
 export class MealsService {
-  mealsRef: AngularFireList<any> = this.db.list(`meals/${this.uid}`);
+  private mealsRef: AngularFireList<any> = this.db.list(`meals/${this.uid}`);
   meals$: Observable<any[]> = this.mealsRef.snapshotChanges().pipe(
     map(changes => changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))),
     tap(next => this.store.set('meals', next))

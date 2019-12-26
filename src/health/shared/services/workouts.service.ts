@@ -10,7 +10,7 @@ import { Workout } from '../../../models/workout.model';
 
 @Injectable()
 export class WorkoutsService {
-  workoutsRef: AngularFireList<any> = this.db.list(`workouts/${this.uid}`);
+  private workoutsRef: AngularFireList<any> = this.db.list(`workouts/${this.uid}`);
   workouts$: Observable<any[]> = this.workoutsRef.snapshotChanges().pipe(
     map(changes => changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))),
     tap(next => this.store.set('workouts', next))
